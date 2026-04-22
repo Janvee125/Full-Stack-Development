@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | Janvee Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+:root{--purple:#8b5cf6;--purple-dark:#6d28d9;--bg:#0f172a;--bg2:#1e1b4b;--card:rgba(255,255,255,0.04);--text:#e2e8f0;--muted:#94a3b8;--border:rgba(255,255,255,0.08);}
+body{background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* SIDEBAR */
+.layout{display:flex;min-height:100vh;}
+.sidebar{
+  width:240px;background:rgba(30,27,75,0.6);border-right:1px solid var(--border);
+  padding:24px 16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;
+  backdrop-filter:blur(12px);flex-shrink:0;
+}
+.sidebar-logo{font-family:'Poppins';font-weight:700;color:#fff;font-size:1.1rem;margin-bottom:20px;padding:0 10px;}
+.sidebar-logo span{color:var(--purple);}
+.nav-item{
+  display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;
+  cursor:pointer;transition:.2s;color:var(--muted);font-size:.875rem;border:none;background:none;width:100%;
+}
+.nav-item:hover,.nav-item.active{background:rgba(139,92,246,0.15);color:#fff;}
+.nav-item.active{border-left:3px solid var(--purple);}
+.nav-item i{width:18px;color:var(--purple);}
+.sidebar-footer{margin-top:auto;}
+.sidebar-footer a{
+  display:flex;align-items:center;gap:10px;color:var(--muted);text-decoration:none;
+  font-size:.8rem;padding:10px 12px;border-radius:10px;transition:.2s;
+}
+.sidebar-footer a:hover{color:#fff;background:rgba(255,255,255,0.05);}
+
+/* MAIN */
+.main{flex:1;padding:28px;overflow-y:auto;}
+.page{display:none;}
+.page.active{display:block;}
+.page-header{margin-bottom:28px;}
+.page-header h1{font-family:'Poppins';font-size:1.6rem;color:#fff;}
+.page-header p{color:var(--muted);font-size:.875rem;margin-top:4px;}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px;}
+.stat-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;
+  display:flex;align-items:center;gap:16px;transition:.2s;
+}
+.stat-card:hover{border-color:rgba(139,92,246,0.3);}
+.stat-icon{
+  width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+}
+.stat-icon.purple{background:rgba(139,92,246,0.15);color:var(--purple);}
+.stat-icon.green{background:rgba(34,197,94,0.15);color:#22c55e;}
+.stat-icon.blue{background:rgba(59,130,246,0.15);color:#3b82f6;}
+.stat-icon.orange{background:rgba(249,115,22,0.15);color:#f97316;}
+.stat-label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.stat-value{font-family:'Poppins';font-size:1.8rem;font-weight:700;color:#fff;}
+
+/* DB STATUS CARD */
+.db-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;
+}
+.db-info{display:flex;align-items:center;gap:14px;}
+.db-dot{width:12px;height:12px;border-radius:50%;background:#ef4444;}
+.db-dot.connected{background:#22c55e;box-shadow:0 0 10px #22c55e;}
+.db-text h3{color:#fff;font-size:.95rem;}
+.db-text p{color:var(--muted);font-size:.8rem;}
+
+/* VISITOR CHART */
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:28px;}
+.chart-card h3{color:#fff;font-size:1rem;margin-bottom:16px;font-family:'Poppins';}
+.chart-bars{display:flex;align-items:flex-end;gap:8px;height:120px;}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.bar{width:100%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,#8b5cf6,#6d28d9);transition:.5s;min-height:4px;}
+.bar-label{font-size:.65rem;color:var(--muted);}
+.bar-count{font-size:.65rem;color:var(--purple-light);}
+
+/* TABLE */
+.table-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:24px;}
+.table-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.table-header h3{color:#fff;font-size:.95rem;font-family:'Poppins';}
+table{width:100%;border-collapse:collapse;}
+th{padding:12px 20px;text-align:left;font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);}
+td{padding:14px 20px;font-size:.85rem;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,0.02);}
+.msg-name{color:#fff;font-weight:600;}
+.msg-email{color:var(--muted);font-size:.8rem;}
+.msg-text{color:var(--muted);font-size:.8rem;max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.badge-unread{
+  background:rgba(139,92,246,0.2);color:var(--purple);
+  padding:2px 8px;border-radius:8px;font-size:.7rem;
+}
+.badge-read{color:var(--muted);font-size:.7rem;}
+
+/* ACTION BUTTONS */
+.action-btn{
+  padding:5px 10px;border-radius:6px;font-size:.75rem;cursor:pointer;border:none;
+  transition:.2s;
+}
+.btn-danger{background:rgba(239,68,68,0.15);color:#f87171;}
+.btn-danger:hover{background:rgba(239,68,68,0.3);}
+.btn-success{background:rgba(34,197,94,0.15);color:#4ade80;}
+.btn-success:hover{background:rgba(34,197,94,0.3);}
+.btn-primary-sm{
+  background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;
+  padding:8px 18px;border-radius:8px;cursor:pointer;border:none;font-size:.85rem;
+  transition:.2s;
+}
+.btn-primary-sm:hover{opacity:.85;}
+
+/* FORM */
+.add-form{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px;}
+.add-form h3{color:#fff;font-size:1rem;font-family:'Poppins';margin-bottom:16px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+input,textarea{
+  padding:10px 14px;border-radius:8px;border:1px solid var(--border);
+  background:rgba(255,255,255,0.04);color:#fff;font-size:.875rem;transition:.2s;
+}
+input:focus,textarea:focus{outline:none;border-color:var(--purple);}
+textarea{resize:vertical;min-height:90px;}
+.form-status{margin-top:10px;font-size:.8rem;min-height:18px;}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:40px;color:var(--muted);}
+.empty i{font-size:2.5rem;margin-bottom:12px;opacity:.4;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{width:60px;padding:16px 8px;}
+  .sidebar-logo,.nav-item span,.sidebar-footer a span{display:none;}
+  .nav-item{justify-content:center;}
+  .main{padding:16px;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .form-row{grid-template-columns:1fr;}
+}
+
+/* UPLOAD AREA */
+.upload-area{
+  border:2px dashed var(--border);border-radius:16px;padding:40px;text-align:center;
+  transition:.3s;cursor:pointer;margin-bottom:16px;
+}
+.upload-area:hover{border-color:var(--purple);background:rgba(139,92,246,0.05);}
+.upload-area i{font-size:2.5rem;color:var(--purple);margin-bottom:12px;}
+.upload-area p{color:var(--muted);font-size:.9rem;}
+.upload-area input[type=file]{display:none;}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">Portfolio <span>Admin</span></div>
+
+  <button class="nav-item active" onclick="showPage('dashboard')">
+    <i class="fas fa-chart-pie"></i><span>Dashboard</span>
+  </button>
+  <button class="nav-item" onclick="showPage('messages')">
+    <i class="fas fa-envelope"></i><span>Messages</span>
+    <span id="unreadBadge" style="margin-left:auto;background:var(--purple);color:#fff;padding:1px 6px;border-radius:8px;font-size:.7rem;display:none;">0</span>
+  </button>
+  <button class="nav-item" onclick="showPage('projects')">
+    <i class="fas fa-code"></i><span>Projects</span>
+  </button>
+  <button class="nav-item" onclick="showPage('resume')">
+    <i class="fas fa-file-pdf"></i><span>Resume</span>
+  </button>
+
+  <div class="sidebar-footer">
+    <a href="/" target="_blank"><i class="fas fa-external-link-alt"></i><span>View Portfolio</span></a>
+    <a href="#" onclick="refreshAll()"><i class="fas fa-rotate-right"></i><span>Refresh</span></a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- ===== DASHBOARD ===== -->
+  <div id="page-dashboard" class="page active">
+    <div class="page-header">
+      <h1>Dashboard</h1>
+      <p>Welcome back! Here's your portfolio overview.</p>
+    </div>
+
+    <!-- DB Status -->
+    <div class="db-card">
+      <div class="db-info">
+        <div class="db-dot" id="adminDbDot"></div>
+        <div class="db-text">
+          <h3 id="adminDbText">Checking MongoDB...</h3>
+          <p id="adminDbDetails">Connecting to database</p>
+        </div>
+      </div>
+      <span style="font-size:.75rem;color:var(--muted);" id="adminDbTime"></span>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon purple"><i class="fas fa-envelope"></i></div>
+        <div><div class="stat-label">Total Messages</div><div class="stat-value" id="s-total">—</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orange"><i class="fas fa-bell"></i></div>
+        <div><div class="stat-label">Unread</div><div class="stat-value" id="s-unread">—</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="fas fa-code"></i></div>
+        <div><div class="stat-label">Projects</div><div class="stat-value" id="s-projects">—</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="fas fa-file-pdf"></i></div>
+        <div><div class="stat-label">Resume</div><div class="stat-value" id="s-resume" style="font-size:1rem;"></div></div>
+      </div>
+    </div>
+
+    <!-- Visitor Chart -->
+    <div class="chart-card">
+      <h3><i class="fas fa-chart-bar" style="color:var(--purple)"></i> Visitors — Last 7 Days</h3>
+      <div class="chart-bars" id="visitorChart"><div class="empty"><i class="fas fa-chart-bar"></i><br>No visitor data yet</div></div>
+    </div>
+
+    <!-- Recent Messages Preview -->
+    <div class="table-card">
+      <div class="table-header"><h3>Recent Messages</h3><button class="btn-primary-sm" onclick="showPage('messages')">View All</button></div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Time</th><th>Status</th></tr></thead>
+        <tbody id="recentMsgs"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== MESSAGES ===== -->
+  <div id="page-messages" class="page">
+    <div class="page-header">
+      <h1>Messages Inbox</h1>
+      <p>All contact form submissions stored in MongoDB</p>
+    </div>
+    <div class="table-card">
+      <div class="table-header">
+        <h3>All Messages</h3>
+        <button class="btn-primary-sm" onclick="loadMessages()"><i class="fas fa-rotate-right"></i> Refresh</button>
+      </div>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Message</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody id="messagesTable"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== PROJECTS ===== -->
+  <div id="page-projects" class="page">
+    <div class="page-header">
+      <h1>Projects</h1>
+      <p>Manage your portfolio projects stored in MongoDB</p>
+    </div>
+
+    <!-- Add Project Form -->
+    <div class="add-form">
+      <h3><i class="fas fa-plus"></i> Add New Project</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Title *</label><input id="pTitle" placeholder="Project name"></div>
+        <div class="form-group"><label>Link (optional)</label><input id="pLink" placeholder="https://..."></div>
+      </div>
+      <div class="form-group"><label>Description *</label><textarea id="pDesc" placeholder="Describe the project..."></textarea></div>
+      <div class="form-group" style="margin-top:12px;"><label>Tech Stack (comma-separated)</label><input id="pTech" placeholder="Node.js, MongoDB, Express"></div>
+      <button class="btn-primary-sm" style="margin-top:14px;" onclick="addProject()"><i class="fas fa-plus"></i> Add Project</button>
+      <div class="form-status" id="projectStatus"></div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-header"><h3>All Projects</h3><button class="btn-primary-sm" onclick="loadProjects()"><i class="fas fa-rotate-right"></i> Refresh</button></div>
+      <table>
+        <thead><tr><th>Title</th><th>Tech Stack</th><th>Added</th><th>Actions</th></tr></thead>
+        <tbody id="projectsTable"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== RESUME ===== -->
+  <div id="page-resume" class="page">
+    <div class="page-header">
+      <h1>Resume Management</h1>
+      <p>Upload and manage your resume (PDF/DOC/DOCX)</p>
+    </div>
+    <div class="add-form">
+      <h3><i class="fas fa-upload"></i> Upload Resume</h3>
+      <div class="upload-area" onclick="document.getElementById('resumeFile').click()" id="uploadArea">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p id="uploadLabel">Click to upload PDF, DOC, or DOCX (max 10MB)</p>
+        <input type="file" id="resumeFile" accept=".pdf,.doc,.docx" onchange="fileSelected(this)">
+      </div>
+      <button class="btn-primary-sm" onclick="uploadResume()"><i class="fas fa-upload"></i> Upload to MongoDB</button>
+      <div class="form-status" id="resumeUploadStatus"></div>
+    </div>
+    <div class="table-card">
+      <div class="table-header"><h3>Current Resume</h3></div>
+      <div id="resumeInfo" style="padding:24px;color:var(--muted);">Loading...</div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ======== NAVIGATION ========
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  event && event.currentTarget && event.currentTarget.classList.add('active');
+  if(id==='messages') loadMessages();
+  if(id==='projects') loadProjects();
+  if(id==='resume') loadResumeInfo();
+}
+
+// ======== HELPERS ========
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtDate(d){return new Date(d).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'});}
+function shortDate(d){return new Date(d).toLocaleDateString('en-IN',{month:'short',day:'numeric'});}
+
+// ======== DB STATUS ========
+async function checkDB(){
+  try{
+    const r=await fetch('/db-status');
+    const d=await r.json();
+    const dot=document.getElementById('adminDbDot');
+    const txt=document.getElementById('adminDbText');
+    const det=document.getElementById('adminDbDetails');
+    const time=document.getElementById('adminDbTime');
+    if(d.readyState===1){
+      dot.classList.add('connected');
+      txt.textContent='MongoDB Connected ✅';
+      det.textContent='Database: '+d.dbName;
+    } else {
+      txt.textContent='MongoDB Disconnected ❌';
+      det.textContent=d.status;
+    }
+    time.textContent='Updated '+new Date().toLocaleTimeString();
+  }catch(e){
+    document.getElementById('adminDbText').textContent='Cannot reach server ❌';
+  }
+}
+checkDB();setInterval(checkDB,8000);
+
+// ======== LOAD ANALYTICS ========
+async function loadAnalytics(){
+  try{
+    const r=await fetch('/analytics');
+    const d=await r.json();
+    if(!d.success) return;
+    document.getElementById('s-total').textContent=d.totalMessages;
+    document.getElementById('s-unread').textContent=d.unreadMessages;
+    document.getElementById('s-projects').textContent=d.totalProjects;
+    document.getElementById('s-resume').textContent=d.hasResume ? '✅ Uploaded' : '❌ Missing';
+    if(d.unreadMessages>0){
+      const badge=document.getElementById('unreadBadge');
+      badge.style.display='';badge.textContent=d.unreadMessages;
+    }
+    // Chart
+    if(d.visitors && d.visitors.length>0){
+      const max=Math.max(...d.visitors.map(v=>v.count),1);
+      const reversed=[...d.visitors].reverse();
+      document.getElementById('visitorChart').innerHTML=reversed.map(v=>`
+        <div class="bar-wrap">
+          <div class="bar-count">${v.count}</div>
+          <div class="bar" style="height:${Math.max(4,(v.count/max)*100)}px"></div>
+          <div class="bar-label">${shortDate(v.date)}</div>
+        </div>
+      `).join('');
+    }
+    // Recent messages preview
+    if(d.totalMessages>0){
+      const mr=await fetch('/messages');
+      const md=await mr.json();
+      if(md.success){
+        const recent=md.messages.slice(0,5);
+        document.getElementById('recentMsgs').innerHTML=recent.map(m=>`
+          <tr>
+            <td><div class="msg-name">${esc(m.name)}</div><div class="msg-email">${esc(m.email)}</div></td>
+            <td>${esc(m.subject||'General')}</td>
+            <td>${fmtDate(m.createdAt)}</td>
+            <td>${m.read?'<span class="badge-read">Read</span>':'<span class="badge-unread">New</span>'}</td>
+          </tr>
+        `).join('');
+      }
+    } else {
+      document.getElementById('recentMsgs').innerHTML='<tr><td colspan="4"><div class="empty"><i class="fas fa-inbox"></i><br>No messages yet</div></td></tr>';
+    }
+  }catch(e){console.error(e);}
+}
+loadAnalytics();
+
+// ======== MESSAGES ========
+async function loadMessages(){
+  const tbody=document.getElementById('messagesTable');
+  tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--muted);">Loading...</td></tr>';
+  try{
+    const r=await fetch('/messages');
+    const d=await r.json();
+    if(!d.success||d.messages.length===0){
+      tbody.innerHTML='<tr><td colspan="5"><div class="empty"><i class="fas fa-inbox"></i><br>No messages yet</div></td></tr>';
+      return;
+    }
+    tbody.innerHTML=d.messages.map(m=>`
+      <tr id="msg-${m._id}">
+        <td><div class="msg-name">${esc(m.name)}</div><div class="msg-email">${esc(m.email)}</div></td>
+        <td>${esc(m.subject||'General')}</td>
+        <td class="msg-text" title="${esc(m.message)}">${esc(m.message)}</td>
+        <td style="color:var(--muted);font-size:.78rem;white-space:nowrap;">${fmtDate(m.createdAt)}</td>
+        <td>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            ${!m.read?`<button class="action-btn btn-success" onclick="markRead('${m._id}')"><i class="fas fa-check"></i> Read</button>`:''}
+            <button class="action-btn btn-danger" onclick="deleteMsg('${m._id}')"><i class="fas fa-trash"></i></button>
+          </div>
+          ${m.read?'<span class="badge-read">Read</span>':'<span class="badge-unread">New</span>'}
+        </td>
+      </tr>
+    `).join('');
+  }catch(e){
+    tbody.innerHTML='<tr><td colspan="5"><div class="empty">Error loading messages</div></td></tr>';
+  }
+}
+
+async function markRead(id){
+  await fetch(`/messages/${id}/read`,{method:'PATCH'});
+  loadMessages();loadAnalytics();
+}
+
+async function deleteMsg(id){
+  if(!confirm('Delete this message?')) return;
+  await fetch(`/messages/${id}`,{method:'DELETE'});
+  document.getElementById('msg-'+id)?.remove();
+  loadAnalytics();
+}
+
+// ======== PROJECTS ========
+async function loadProjects(){
+  const tbody=document.getElementById('projectsTable');
+  try{
+    const r=await fetch('/projects');
+    const d=await r.json();
+    if(!d.success||d.projects.length===0){
+      tbody.innerHTML='<tr><td colspan="4"><div class="empty"><i class="fas fa-code"></i><br>No projects yet. Add one above!</div></td></tr>';
+      return;
+    }
+    tbody.innerHTML=d.projects.map(p=>`
+      <tr id="proj-${p._id}">
+        <td><strong style="color:#fff;">${esc(p.title)}</strong>${p.link?`<br><a href="${esc(p.link)}" target="_blank" style="color:var(--purple);font-size:.75rem;">${esc(p.link)}</a>`:''}</td>
+        <td>${(p.techStack||[]).map(t=>`<span style="background:rgba(139,92,246,.1);color:#c4b5fd;padding:2px 8px;border-radius:8px;font-size:.72rem;margin:2px;display:inline-block;">${esc(t)}</span>`).join('')||'—'}</td>
+        <td style="color:var(--muted);font-size:.78rem;">${fmtDate(p.createdAt)}</td>
+        <td><button class="action-btn btn-danger" onclick="deleteProject('${p._id}')"><i class="fas fa-trash"></i> Delete</button></td>
+      </tr>
+    `).join('');
+  }catch{tbody.innerHTML='<tr><td colspan="4"><div class="empty">Error loading projects</div></td></tr>';}
+}
+
+async function addProject(){
+  const title=document.getElementById('pTitle').value.trim();
+  const desc=document.getElementById('pDesc').value.trim();
+  const tech=document.getElementById('pTech').value;
+  const link=document.getElementById('pLink').value.trim();
+  const status=document.getElementById('projectStatus');
+  if(!title||!desc){status.innerHTML='<span style="color:#f87171;">Title and description required</span>';return;}
+  try{
+    const r=await fetch('/projects',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,description:desc,techStack:tech,link})});
+    const d=await r.json();
+    if(d.success){
+      status.innerHTML='<span style="color:#4ade80;">✅ Project added!</span>';
+      document.getElementById('pTitle').value='';
+      document.getElementById('pDesc').value='';
+      document.getElementById('pTech').value='';
+      document.getElementById('pLink').value='';
+      loadProjects();loadAnalytics();
+      setTimeout(()=>{status.innerHTML='';},3000);
+    } else {
+      status.innerHTML=`<span style="color:#f87171;">❌ ${esc(d.message)}</span>`;
+    }
+  }catch{status.innerHTML='<span style="color:#f87171;">❌ Server error</span>';}
+}
+
+async function deleteProject(id){
+  if(!confirm('Delete this project?')) return;
+  await fetch(`/projects/${id}`,{method:'DELETE'});
+  document.getElementById('proj-'+id)?.remove();
+  loadAnalytics();
+}
+
+// ======== RESUME ========
+function fileSelected(input){
+  const f=input.files[0];
+  if(f) document.getElementById('uploadLabel').textContent='Selected: '+f.name;
+}
+
+async function uploadResume(){
+  const file=document.getElementById('resumeFile').files[0];
+  const status=document.getElementById('resumeUploadStatus');
+  if(!file){status.innerHTML='<span style="color:#f87171;">Please select a file first</span>';return;}
+  status.innerHTML='<span style="color:#fbbf24;">⏳ Uploading...</span>';
+  try{
+    const fd=new FormData();
+    fd.append('resumeFile',file);
+    const r=await fetch('/upload-resume',{method:'POST',body:fd});
+    const d=await r.json();
+    if(d.success){
+      status.innerHTML=`<span style="color:#4ade80;">✅ ${esc(d.message)}</span>`;
+      loadResumeInfo();loadAnalytics();
+    } else {
+      status.innerHTML=`<span style="color:#f87171;">❌ ${esc(d.message)}</span>`;
+    }
+  }catch{status.innerHTML='<span style="color:#f87171;">❌ Upload failed</span>';}
+}
+
+async function loadResumeInfo(){
+  const info=document.getElementById('resumeInfo');
+  try{
+    const r=await fetch('/resume-info');
+    const d=await r.json();
+    if(d.resume){
+      info.innerHTML=`
+        <div style="color:#fff;"><i class="fas fa-file-pdf" style="color:#ef4444;margin-right:8px;"></i><strong>${esc(d.resume.originalName||d.resume.fileName)}</strong></div>
+        <div style="color:var(--muted);font-size:.8rem;margin-top:6px;">Uploaded: ${fmtDate(d.resume.uploadedAt)}</div>
+        <a href="/resume" target="_blank" style="color:var(--purple);font-size:.85rem;display:inline-flex;align-items:center;gap:6px;margin-top:12px;text-decoration:none;"><i class="fas fa-eye"></i> Preview Resume</a>
+      `;
+    } else {
+      info.innerHTML='<div class="empty"><i class="fas fa-file-slash"></i><br>No resume uploaded yet</div>';
+    }
+  }catch{info.innerHTML='<div class="empty">Error loading resume info</div>';}
+}
+
+function refreshAll(){
+  loadAnalytics();
+  checkDB();
+}
+
+// Init page shows
+window.onload=()=>{
+  document.querySelectorAll('.nav-item').forEach((el,i)=>{
+    const pages=['dashboard','messages','projects','resume'];
+    el.addEventListener('click',()=>showPage(pages[i]));
+  });
+};
+</script>
+</body>
+</html>

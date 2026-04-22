@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio | Janvee Ghadge</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;font-family:'Inter',sans-serif;}
+
+:root{
+  --purple:#8b5cf6;
+  --purple-dark:#6d28d9;
+  --purple-light:#c4b5fd;
+  --bg:#0f172a;
+  --bg2:#1e1b4b;
+  --card:rgba(255,255,255,0.05);
+  --text:#e2e8f0;
+  --text-muted:#94a3b8;
+}
+
+body{background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:#0f172a;}
+::-webkit-scrollbar-thumb{background:var(--purple);border-radius:6px;}
+
+/* ============ NAVBAR ============ */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(15,23,42,0.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(139,92,246,0.2);
+}
+nav{display:flex;justify-content:space-between;align-items:center;width:90%;margin:auto;padding:14px 0;}
+.logo{
+  font-family:'Poppins';font-weight:800;font-size:1.2rem;
+  background:linear-gradient(135deg,#c4b5fd,#8b5cf6);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+nav ul{display:flex;gap:28px;list-style:none;}
+nav a{color:var(--text-muted);text-decoration:none;font-size:.9rem;font-weight:500;transition:.3s;position:relative;}
+nav a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--purple);transition:.3s;}
+nav a:hover{color:#fff;}
+nav a:hover::after{width:100%;}
+.nav-db{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-muted);}
+.db-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;transition:.5s;}
+.db-dot.connected{background:#22c55e;box-shadow:0 0 8px #22c55e;}
+
+/* ============ HERO ============ */
+.hero{
+  min-height:92vh;display:flex;justify-content:center;align-items:center;
+  flex-direction:column;text-align:center;padding:40px 20px;
+  background:radial-gradient(ellipse at center, rgba(139,92,246,0.15) 0%, transparent 70%);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238b5cf6' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-tag{
+  background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);
+  color:var(--purple-light);padding:6px 16px;border-radius:20px;font-size:.8rem;
+  margin-bottom:20px;display:inline-block;
+}
+.hero h1{
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  font-family:'Poppins';font-weight:800;line-height:1.15;
+  background:linear-gradient(135deg,#fff 30%,#c4b5fd);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:16px;
+}
+.hero .subtitle{color:var(--text-muted);font-size:1.1rem;margin-bottom:10px;}
+.hero .typing{
+  color:var(--purple-light);font-size:1rem;min-height:24px;margin-bottom:36px;
+}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.btn{
+  padding:12px 28px;border-radius:30px;cursor:pointer;
+  border:none;font-weight:600;font-size:.9rem;transition:.3s;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary{
+  background:linear-gradient(135deg,#8b5cf6,#6d28d9);
+  color:white;box-shadow:0 4px 24px rgba(139,92,246,0.4);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(139,92,246,0.6);}
+.btn-outline{border:1.5px solid #8b5cf6;color:#c4b5fd;background:transparent;}
+.btn-outline:hover{background:rgba(139,92,246,0.1);transform:translateY(-2px);}
+.hero-stats{
+  display:flex;gap:48px;margin-top:50px;flex-wrap:wrap;justify-content:center;
+}
+.hero-stat{text-align:center;}
+.hero-stat .num{font-family:'Poppins';font-size:2rem;font-weight:700;color:#c4b5fd;}
+.hero-stat .label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;}
+
+/* Floating particles */
+.particle{
+  position:absolute;border-radius:50%;background:var(--purple);opacity:.15;
+  animation:float linear infinite;
+}
+@keyframes float{0%{transform:translateY(100vh) scale(0);}100%{transform:translateY(-100px) scale(1);opacity:0;}}
+
+/* ============ SECTIONS ============ */
+.container{width:90%;max-width:1100px;margin:auto;padding:80px 0;}
+.section-header{text-align:center;margin-bottom:50px;}
+.section-header h2{
+  font-family:'Poppins';font-size:2rem;font-weight:700;color:#fff;
+}
+.section-header .line{
+  width:60px;height:3px;background:linear-gradient(135deg,#8b5cf6,#c4b5fd);
+  margin:12px auto 0;border-radius:2px;
+}
+.section-header p{color:var(--text-muted);margin-top:12px;font-size:.95rem;}
+
+/* ============ ABOUT ============ */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+.about-text p{color:var(--text-muted);line-height:1.8;margin-bottom:12px;}
+.about-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.badge{
+  background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);
+  color:var(--purple-light);padding:6px 14px;border-radius:20px;font-size:.8rem;
+}
+.about-card{
+  background:var(--card);backdrop-filter:blur(15px);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;padding:30px;text-align:center;
+}
+.avatar{
+  width:120px;height:120px;border-radius:50%;
+  background:linear-gradient(135deg,#6d28d9,#c4b5fd);
+  display:flex;align-items:center;justify-content:center;
+  font-size:3rem;margin:0 auto 16px;
+  box-shadow:0 0 30px rgba(139,92,246,0.4);
+}
+.about-card h3{font-family:'Poppins';color:#fff;font-size:1.2rem;}
+.about-card p{color:var(--text-muted);font-size:.85rem;margin-top:6px;}
+
+/* ============ SKILLS ============ */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;}
+.skill-card{
+  background:var(--card);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:24px 16px;text-align:center;
+  transition:.3s;cursor:default;
+}
+.skill-card:hover{
+  border-color:rgba(139,92,246,0.5);
+  transform:translateY(-6px);
+  box-shadow:0 8px 24px rgba(139,92,246,0.2);
+}
+.skill-card i{font-size:2rem;margin-bottom:10px;color:var(--purple-light);}
+.skill-card p{font-size:.85rem;color:var(--text-muted);}
+.skill-bar{width:100%;height:4px;background:rgba(255,255,255,0.05);border-radius:2px;margin-top:10px;overflow:hidden;}
+.skill-bar-fill{height:100%;background:linear-gradient(135deg,#8b5cf6,#c4b5fd);border-radius:2px;width:0;transition:width 1.5s ease;}
+
+/* ============ PROJECTS ============ */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;}
+.project-card{
+  background:var(--card);backdrop-filter:blur(15px);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;padding:28px;transition:.3s;
+  display:flex;flex-direction:column;gap:14px;
+  position:relative;overflow:hidden;
+}
+.project-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(135deg,#8b5cf6,#c4b5fd);
+}
+.project-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 12px 32px rgba(139,92,246,0.2);
+  border-color:rgba(139,92,246,0.3);
+}
+.project-card h3{font-family:'Poppins';color:#fff;font-size:1.1rem;}
+.project-card p{color:var(--text-muted);font-size:.85rem;line-height:1.7;flex:1;}
+.tech-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.tech-tag{
+  background:rgba(139,92,246,0.15);color:var(--purple-light);
+  padding:3px 10px;border-radius:12px;font-size:.75rem;
+}
+.project-link{
+  color:var(--purple-light);text-decoration:none;font-size:.85rem;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:.2s;
+}
+.project-link:hover{color:#fff;}
+.projects-loading{text-align:center;color:var(--text-muted);padding:40px;}
+
+/* ============ CONTACT ============ */
+.contact-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:40px;align-items:start;}
+.contact-info{display:flex;flex-direction:column;gap:20px;}
+.contact-item{
+  display:flex;align-items:center;gap:14px;
+  background:var(--card);border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px;padding:18px;
+}
+.contact-item i{color:var(--purple);font-size:1.2rem;width:24px;text-align:center;}
+.contact-item p{color:var(--text-muted);font-size:.9rem;}
+.contact-form{
+  background:var(--card);backdrop-filter:blur(15px);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;padding:36px;
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group label{color:var(--text-muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;}
+input,textarea,select{
+  padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.04);color:white;font-size:.9rem;
+  transition:.3s;width:100%;
+}
+input:focus,textarea:focus,select:focus{
+  outline:none;border-color:var(--purple);
+  box-shadow:0 0 0 3px rgba(139,92,246,0.1);
+}
+textarea{resize:vertical;min-height:120px;}
+.form-status{margin-top:12px;font-size:.85rem;min-height:20px;}
+
+/* ============ FOOTER ============ */
+footer{
+  text-align:center;padding:40px 20px;
+  background:rgba(30,27,75,0.5);
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+footer p{color:var(--text-muted);font-size:.85rem;}
+.social-links{display:flex;justify-content:center;gap:16px;margin-bottom:20px;}
+.social-link{
+  width:42px;height:42px;border-radius:50%;
+  background:var(--card);border:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-muted);text-decoration:none;transition:.3s;
+}
+.social-link:hover{background:var(--purple);color:#fff;transform:translateY(-3px);}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:768px){
+  .about-grid,.contact-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  nav ul{gap:14px;}
+}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* Toast notification */
+.toast{
+  position:fixed;bottom:24px;right:24px;
+  background:rgba(30,27,75,0.95);backdrop-filter:blur(12px);
+  border:1px solid rgba(139,92,246,0.3);color:white;
+  padding:14px 24px;border-radius:12px;font-size:.875rem;
+  transform:translateY(100px);opacity:0;transition:.3s;z-index:9999;
+}
+.toast.show{transform:none;opacity:1;}
+.toast.success{border-color:rgba(34,197,94,0.4);}
+.toast.error{border-color:rgba(239,68,68,0.4);}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header>
+<nav>
+  <span class="logo">Janvee Ghadge</span>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="/admin" target="_blank"><i class="fas fa-shield-halved"></i> Admin</a></li>
+  </ul>
+  <div class="nav-db" id="dbStatus">
+    <div class="db-dot" id="dbDot"></div>
+    <span id="dbText">DB</span>
+  </div>
+</nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <!-- particles -->
+  <script>
+    for(let i=0;i<12;i++){
+      const p=document.createElement('div');
+      p.className='particle';
+      const s=Math.random()*8+4;
+      p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*8}s;`;
+      document.currentScript.parentElement.appendChild(p);
+    }
+  </script>
+
+  <div class="hero-tag"><i class="fas fa-code"></i> &nbsp;Open to Opportunities</div>
+  <h1>Hi, I'm Janvee Ghadge</h1>
+  <p class="subtitle">Aspiring Software Developer</p>
+  <p class="typing" id="typingText"></p>
+
+  <div class="hero-btns">
+    <button class="btn btn-primary" onclick="viewResume()"><i class="fas fa-file-pdf"></i> View Resume</button>
+    <a href="#contact" class="btn btn-outline"><i class="fas fa-envelope"></i> Contact Me</a>
+    <a href="/admin" class="btn btn-outline" target="_blank"><i class="fas fa-chart-line"></i> Dashboard</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num" id="statProjects">—</div><div class="label">Projects</div></div>
+    <div class="hero-stat"><div class="num" id="statMessages">—</div><div class="label">Messages</div></div>
+    <div class="hero-stat"><div class="num">3+</div><div class="label">Technologies</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="container">
+<section id="about" class="reveal">
+  <div class="section-header">
+    <h2>About Me</h2>
+    <div class="line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I am a creative developer with a passion for web development, UI/UX design, and game development. I enjoy crafting interactive, meaningful digital experiences that combine technical skills with creative thinking.</p>
+      <p>Currently pursuing my studies in computer science, I work with modern web technologies and continuously explore new tools and frameworks to expand my skill set.</p>
+      <p>When I'm not coding, you'll find me working on game design in Unreal Engine or exploring innovative UI patterns.</p>
+      <div class="about-badges">
+        <span class="badge"><i class="fas fa-graduation-cap"></i> Computer Science</span>
+        <span class="badge"><i class="fas fa-map-marker-alt"></i> Pune, India</span>
+        <span class="badge"><i class="fas fa-laptop-code"></i> Full Stack</span>
+        <span class="badge"><i class="fas fa-gamepad"></i> Game Dev</span>
+      </div>
+    </div>
+    <div class="about-card">
+      <div class="avatar">👩‍💻</div>
+      <h3>Janvee Ghadge</h3>
+      <p>Software Developer & Designer</p>
+      <br>
+      <div id="resumeStatus" style="color:var(--text-muted);font-size:.8rem;">Checking resume...</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="reveal">
+  <div class="section-header">
+    <h2>Skills & Technologies</h2>
+    <div class="line"></div>
+    <p>Technologies I work with</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card"><i class="fab fa-html5"></i><p>HTML5</p><div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div></div>
+    <div class="skill-card"><i class="fab fa-css3-alt"></i><p>CSS3</p><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
+    <div class="skill-card"><i class="fab fa-js-square"></i><p>JavaScript</p><div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div></div>
+    <div class="skill-card"><i class="fab fa-node-js"></i><p>Node.js</p><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div></div>
+    <div class="skill-card"><i class="fas fa-leaf"></i><p>MongoDB</p><div class="skill-bar"><div class="skill-bar-fill" data-width="70"></div></div></div>
+    <div class="skill-card"><i class="fas fa-database"></i><p>MySQL</p><div class="skill-bar"><div class="skill-bar-fill" data-width="72"></div></div></div>
+    <div class="skill-card"><i class="fas fa-gamepad"></i><p>Unreal Engine</p><div class="skill-bar"><div class="skill-bar-fill" data-width="65"></div></div></div>
+    <div class="skill-card"><i class="fab fa-git-alt"></i><p>Git</p><div class="skill-bar"><div class="skill-bar-fill" data-width="68"></div></div></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="reveal">
+  <div class="section-header">
+    <h2>Projects</h2>
+    <div class="line"></div>
+    <p>Things I've built</p>
+  </div>
+  <div class="projects-grid" id="projectsGrid">
+    <div class="projects-loading"><i class="fas fa-spinner fa-spin"></i> Loading projects...</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="reveal">
+  <div class="section-header">
+    <h2>Get In Touch</h2>
+    <div class="line"></div>
+    <p>Have a project in mind? Let's talk.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="contact-item">
+        <i class="fas fa-envelope"></i>
+        <div><strong style="color:#fff">Email</strong><p>janveeghadge@example.com</p></div>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <div><strong style="color:#fff">Location</strong><p>Pune, Maharashtra, India</p></div>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-graduation-cap"></i>
+        <div><strong style="color:#fff">Education</strong><p>Computer Science Student</p></div>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-circle-check" style="color:#22c55e;"></i>
+        <div><strong style="color:#fff">Status</strong><p>Open to internships</p></div>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="name" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="your@email.com">
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:14px;">
+        <label>Subject</label>
+        <select id="subject">
+          <option value="General Enquiry">General Enquiry</option>
+          <option value="Collaboration">Collaboration</option>
+          <option value="Internship">Internship Offer</option>
+          <option value="Project">Project Discussion</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-top:14px;">
+        <label>Message</label>
+        <textarea id="message" placeholder="Your message here..."></textarea>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:16px;justify-content:center;" onclick="sendMessage()">
+        <i class="fas fa-paper-plane"></i> Send Message
+      </button>
+      <div class="form-status" id="formStatus"></div>
+    </div>
+  </div>
+</section>
+</div><!-- end container -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="social-links">
+    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+    <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+  </div>
+  <p>© 2026 Janvee Ghadge &nbsp;·&nbsp; Built with <i class="fas fa-heart" style="color:#8b5cf6;"></i> &nbsp;+&nbsp; Node.js + MongoDB</p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ======== TYPING ANIMATION ========
+const phrases = [
+  "Full Stack Web Developer 💻",
+  "UI/UX Enthusiast 🎨",
+  "Unreal Engine Developer 🎮",
+  "Building cool things with code ✨"
+];
+let phraseIdx=0,charIdx=0,deleting=false;
+function type(){
+  const el=document.getElementById('typingText');
+  const cur=phrases[phraseIdx];
+  if(!deleting){
+    el.textContent=cur.slice(0,++charIdx);
+    if(charIdx===cur.length){deleting=true;setTimeout(type,1800);return;}
+  } else {
+    el.textContent=cur.slice(0,--charIdx);
+    if(charIdx===0){deleting=false;phraseIdx=(phraseIdx+1)%phrases.length;}
+  }
+  setTimeout(type,deleting?60:100);
+}
+type();
+
+// ======== DB STATUS ========
+async function checkDB(){
+  try{
+    const r=await fetch('/db-status');
+    const d=await r.json();
+    const dot=document.getElementById('dbDot');
+    const txt=document.getElementById('dbText');
+    if(d.readyState===1){dot.classList.add('connected');txt.textContent='DB Connected';}
+    else{txt.textContent='DB Offline';}
+  }catch{}
+}
+checkDB();setInterval(checkDB,10000);
+
+// ======== LOAD PROJECTS FROM MONGODB ========
+async function loadProjects(){
+  const grid=document.getElementById('projectsGrid');
+  try{
+    const r=await fetch('/projects');
+    const d=await r.json();
+    if(d.success && d.projects.length>0){
+      grid.innerHTML=d.projects.map(p=>`
+        <div class="project-card">
+          <h3>${esc(p.title)}</h3>
+          <p>${esc(p.description)}</p>
+          <div class="tech-tags">${(p.techStack||[]).map(t=>`<span class="tech-tag">${esc(t)}</span>`).join('')}</div>
+          ${p.link?`<a href="${esc(p.link)}" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> View Project</a>`:''}
+        </div>
+      `).join('');
+    } else {
+      // Fallback static projects
+      grid.innerHTML = staticProjects();
+    }
+  }catch{
+    grid.innerHTML = staticProjects();
+  }
+}
+
+function staticProjects(){
+  return `
+    <div class="project-card">
+      <h3>CloudFly ✈️</h3>
+      <p>Full-stack flight booking system with user auth, seat selection, booking management, and payment flow built using Node.js, Express, and MySQL.</p>
+      <div class="tech-tags"><span class="tech-tag">Node.js</span><span class="tech-tag">Express</span><span class="tech-tag">MySQL</span><span class="tech-tag">Session Auth</span></div>
+    </div>
+    <div class="project-card">
+      <h3>Kolhapur Chronicles 🎮</h3>
+      <p>Action-adventure game built in Unreal Engine featuring combat mechanics, character abilities, and immersive environment design inspired by Indian mythology.</p>
+      <div class="tech-tags"><span class="tech-tag">Unreal Engine</span><span class="tech-tag">C++</span><span class="tech-tag">Blueprints</span></div>
+    </div>
+    <div class="project-card">
+      <h3>Rent C 👗</h3>
+      <p>A modern clothing rental platform with category navigation, filtering, booking system, and user accounts for a seamless rental experience.</p>
+      <div class="tech-tags"><span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">JavaScript</span></div>
+    </div>
+  `;
+}
+
+loadProjects();
+
+// ======== ANALYTICS ========
+async function loadStats(){
+  try{
+    const r=await fetch('/analytics');
+    const d=await r.json();
+    if(d.success){
+      document.getElementById('statProjects').textContent=d.totalProjects||'3+';
+      document.getElementById('statMessages').textContent=d.totalMessages||'0';
+      const ri=document.getElementById('resumeStatus');
+      if(d.hasResume){
+        ri.innerHTML=`<i class="fas fa-file-pdf" style="color:#22c55e;"></i> Resume: ${esc(d.resumeName||'Uploaded')}`;
+      } else {
+        ri.innerHTML=`<a href="/upload.html" style="color:var(--purple-light)"><i class="fas fa-upload"></i> Upload Resume</a>`;
+      }
+    }
+  }catch{}
+}
+loadStats();
+
+// ======== VIEW RESUME ========
+function viewResume(){window.open('/resume','_blank');}
+
+// ======== SEND MESSAGE ========
+async function sendMessage(){
+  const name=document.getElementById('name').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const subject=document.getElementById('subject').value;
+  const message=document.getElementById('message').value.trim();
+  const status=document.getElementById('formStatus');
+
+  if(!name||!email||!message){
+    status.innerHTML='<span style="color:#f87171;">❌ Please fill all required fields</span>';
+    return;
+  }
+  status.innerHTML='<span style="color:#fbbf24;">⏳ Sending...</span>';
+
+  try{
+    const r=await fetch('/send-message',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name,email,subject,message})
+    });
+    const d=await r.json();
+    if(d.success){
+      status.innerHTML='<span style="color:#4ade80;">✅ Message sent! I\'ll get back to you soon.</span>';
+      document.getElementById('name').value='';
+      document.getElementById('email').value='';
+      document.getElementById('message').value='';
+      showToast('✅ Message sent successfully!','success');
+      setTimeout(()=>{status.innerHTML='';},4000);
+    } else {
+      status.innerHTML=`<span style="color:#f87171;">❌ ${esc(d.message)}</span>`;
+    }
+  }catch{
+    status.innerHTML='<span style="color:#f87171;">❌ Server error. Try again.</span>';
+  }
+}
+
+// ======== SCROLL REVEAL ========
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ======== SKILL BARS ANIMATION ========
+const barObserver=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.skill-bar-fill').forEach(b=>{
+        b.style.width=b.dataset.width+'%';
+      });
+    }
+  });
+},{threshold:0.3});
+document.getElementById('skills') && barObserver.observe(document.getElementById('skills'));
+
+// ======== TOAST ========
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className=`toast ${type} show`;
+  setTimeout(()=>t.className='toast',3500);
+}
+
+// ======== ESCAPE ========
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+</script>
+</body>
+</html>
