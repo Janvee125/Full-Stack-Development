@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Your Cart</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f3f3f3;
+display:flex;
+justify-content:center;
+padding:30px;
+}
+
+.phone{
+width:350px;
+background:white;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.2);
+overflow:hidden;
+}
+
+.header{
+padding:15px;
+border-bottom:1px solid #eee;
+font-weight:bold;
+}
+
+.items{
+padding:15px;
+}
+
+.item{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+}
+
+.qty button{
+background:#ff6a00;
+border:none;
+color:white;
+padding:4px 8px;
+border-radius:4px;
+cursor:pointer;
+}
+
+.bill{
+background:#fafafa;
+padding:15px;
+border-top:1px solid #eee;
+}
+
+.bill div{
+display:flex;
+justify-content:space-between;
+margin-bottom:8px;
+}
+
+.payment{
+padding:15px;
+}
+
+.confirm{
+background:#ff6a00;
+color:white;
+border:none;
+width:100%;
+padding:12px;
+font-size:16px;
+cursor:pointer;
+border-radius:5px;
+}
+
+.confirm:hover{
+background:#e65c00;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+🛒 Your Cart
+</div>
+
+<div class="items" id="cartItems">
+</div>
+
+<div class="bill">
+
+<div>
+<span>Items Total</span>
+<span id="itemsTotal">₹0</span>
+</div>
+
+<div>
+<span>Coupon Discount</span>
+<span style="color:red">- ₹25</span>
+</div>
+
+<div>
+<b>Grand Total</b>
+<b id="grandTotal">₹0</b>
+</div>
+
+</div>
+
+<div class="payment">
+
+<p><b>Select Payment Method</b></p>
+
+<label>
+<input type="radio" name="pay" value="paytm" onclick="showPaytm()"> Paytm
+</label>
+
+<br><br>
+
+<label>
+<input type="radio" name="pay" value="cod" checked onclick="hidePaytm()"> Cash on Delivery
+</label>
+
+<br><br>
+
+<div id="paytmBox" style="display:none; text-align:center;">
+
+<p>Scan QR to Pay</p>
+
+<img src="paytm.png" width="150">
+
+<p>Pay using Paytm App</p>
+
+</div>
+
+<br>
+
+<button class="confirm" onclick="confirmOrder()">
+Confirm Order
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function loadCart(){
+
+let cartDiv = document.getElementById("cartItems");
+
+cartDiv.innerHTML="";
+
+let total=0;
+
+cart.forEach((item,index)=>{
+
+let itemTotal = item.price * item.qty;
+
+total += itemTotal;
+
+cartDiv.innerHTML += `
+
+<div class="item">
+
+<div>
+<b>${item.name}</b><br>
+₹${item.price}
+</div>
+
+<div class="qty">
+
+<button onclick="decrease(${index})">-</button>
+
+${item.qty}
+
+<button onclick="increase(${index})">+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("itemsTotal").innerText="₹"+total;
+
+let finalTotal = total - 25;
+
+if(finalTotal < 0) finalTotal = 0;
+
+document.getElementById("grandTotal").innerText="₹"+finalTotal;
+
+}
+
+function increase(i){
+
+cart[i].qty++;
+
+updateCart();
+
+}
+
+function decrease(i){
+
+if(cart[i].qty > 1){
+
+cart[i].qty--;
+
+}else{
+
+cart.splice(i,1);
+
+}
+
+updateCart();
+
+}
+
+function updateCart(){
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+loadCart();
+
+}
+
+function showPaytm(){
+
+document.getElementById("paytmBox").style.display="block";
+
+}
+
+function hidePaytm(){
+
+document.getElementById("paytmBox").style.display="none";
+
+}
+
+//function order
+function confirmOrder() {
+
+let payment = document.querySelector('input[name="pay"]:checked').value;
+
+let total = document.getElementById("grandTotal").innerText.replace("₹","");
+
+fetch("/place-order", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        cart: cart,
+        total: total,
+        payment: payment
+    })
+})
+.then(res => {
+    console.log("STATUS:", res.status);
+    return res.json();
+})
+.then(data => {
+    console.log("DATA:", data);
+
+    if (!data.orderId) {
+        alert("Order failed ❌");
+        return;
+    }
+
+    localStorage.setItem("orderId", data.orderId);
+    localStorage.removeItem("cart");
+
+    window.location.href = "http://localhost:3000/order.html";;
+})
+.catch(err => {
+    console.error("FULL ERROR:", err);
+    alert("Server error ❌");
+});
+
+}
+
+
+loadCart();
+
+</script>
+
+</body>
+
+</html>
