@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio | Janvee Ghadge</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+    font-family:'Inter',sans-serif;
+}
+
+/* 🌙 DARK BACKGROUND */
+body{
+    background:linear-gradient(135deg,#0f172a,#020617);
+    color:#e2e8f0;
+}
+
+/* NAVBAR */
+header{
+    position:sticky;
+    top:0;
+    background:rgba(15,23,42,0.8);
+    backdrop-filter:blur(10px);
+    box-shadow:0 4px 20px rgba(0,0,0,0.5);
+    z-index:1000;
+}
+
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:90%;
+    margin:auto;
+    padding:15px 0;
+}
+
+/* LOGO */
+.logo{
+    font-family:'Poppins',sans-serif;
+    font-weight:700;
+    font-size:1.4rem;
+    padding:6px 14px;
+    border-radius:8px;
+    background:linear-gradient(135deg,#38bdf8,#0ea5e9);
+    color:white;
+    box-shadow:0 4px 15px rgba(56,189,248,0.4);
+}
+
+nav ul{
+    display:flex;
+    gap:20px;
+    list-style:none;
+}
+
+nav a{
+    text-decoration:none;
+    color:#cbd5f5;
+    font-weight:500;
+    transition:0.3s;
+}
+
+nav a:hover{
+    color:#38bdf8;
+}
+
+/* HERO */
+.hero{
+    height:90vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+    background:linear-gradient(135deg,#0369a1,#020617);
+    color:white;
+    padding:20px;
+}
+
+.hero h1{
+    font-size:3rem;
+    font-family:'Poppins';
+}
+
+.hero p{
+    margin:15px 0;
+    font-size:1.2rem;
+    color:#cbd5f5;
+}
+
+.btn{
+    padding:10px 22px;
+    border-radius:30px;
+    border:none;
+    margin:5px;
+    cursor:pointer;
+    transition:0.3s;
+    font-weight:600;
+}
+
+.btn-primary{
+    background:#38bdf8;
+    color:#020617;
+}
+
+.btn-outline{
+    border:2px solid #38bdf8;
+    background:transparent;
+    color:#38bdf8;
+}
+
+.btn:hover{
+    transform:translateY(-3px) scale(1.05);
+}
+
+/* CONTAINER */
+.container{
+    width:90%;
+    margin:auto;
+    padding:60px 0;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:30px;
+    color:#38bdf8;
+    font-family:'Poppins';
+}
+
+/* ABOUT */
+.about{
+    max-width:700px;
+    margin:auto;
+    text-align:center;
+    font-size:1.05rem;
+    color:#cbd5f5;
+}
+
+/* SKILLS */
+.skills{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px;
+}
+
+.skill{
+    background:linear-gradient(135deg,#38bdf8,#0284c7);
+    color:#020617;
+    padding:10px 18px;
+    border-radius:20px;
+    transition:0.3s;
+}
+
+.skill:hover{
+    transform:scale(1.1);
+}
+
+/* PROJECTS */
+.projects{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:rgba(30,41,59,0.6);
+    backdrop-filter:blur(10px);
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+/* CONTACT */
+.contact form{
+    max-width:500px;
+    margin:auto;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+input,textarea{
+    padding:12px;
+    border-radius:8px;
+    border:none;
+    background:#1e293b;
+    color:white;
+}
+
+button{
+    background:#38bdf8;
+    color:#020617;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0ea5e9;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:20px;
+    background:#020617;
+    color:#38bdf8;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .hero h1{
+        font-size:2.2rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <h2 class="logo">Janvee Ghadge</h2>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Hi, I'm Janvee Ghadge 👋</h1>
+    <p>Aspiring Software Developer | Full Stack Enthusiast</p>
+    <div>
+        <button class="btn btn-primary">View Resume</button>
+        <button class="btn btn-outline">Contact Me</button>
+    </div>
+</section>
+
+<div class="container">
+
+<section id="about" class="about">
+<h2>About Me</h2>
+<p>
+I am a motivated developer with strong fundamentals in web development,
+data structures, and problem-solving. I enjoy building scalable applications
+and continuously learning new technologies.
+</p>
+</section>
+
+<section id="skills">
+<h2>Skills</h2>
+<div class="skills">
+<div class="skill">HTML</div>
+<div class="skill">CSS</div>
+<div class="skill">JavaScript</div>
+<div class="skill">Node.js</div>
+<div class="skill">MySQL</div>
+<div class="skill">DSA</div>
+</div>
+</section>
+
+<section id="projects">
+<h2>Projects</h2>
+<div class="projects">
+
+<div class="card">
+<h3>CloudFly - Flight Booking</h3>
+<p>Full-stack app using Node.js & MySQL with login & booking system.</p>
+</div>
+
+<div class="card">
+<h3>Rent C - Clothing Rental</h3>
+<p>Frontend platform with category-based rental system.</p>
+</div>
+
+</div>
+</section>
+
+<section id="contact" class="contact">
+<h2>Contact</h2>
+<form>
+<input type="text" placeholder="Your Name">
+<input type="email" placeholder="Your Email">
+<textarea rows="5" placeholder="Message"></textarea>
+<button type="submit">Send Message</button>
+</form>
+</section>
+
+</div>
+
+<footer>
+<p>© 2026 Janvee Ghadge | Portfolio</p>
+</footer>
+
+</body>
+</html>
