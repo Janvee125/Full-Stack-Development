@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Success - Fashion Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <h1 class="logo">Fashion Store</h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="cart.html" class="cart-link">Cart</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- SUCCESS SECTION -->
+<section class="success-section">
+    <div class="container">
+        <div class="success-container">
+            <div class="success-icon">✓</div>
+            <h1>Order Placed Successfully!</h1>
+            <p>Thank you for your purchase.</p>
+            
+            <div class="order-details">
+                <h2>Order Details</h2>
+                <div class="detail-row">
+                    <span>Order Number:</span>
+                    <span id="orderNumber">#12345</span>
+                </div>
+                <div class="detail-row">
+                    <span>Order Date:</span>
+                    <span id="orderDate">April 22, 2026</span>
+                </div>
+                <div class="detail-row">
+                    <span>Total Amount:</span>
+                    <span id="orderAmount">$0.00</span>
+                </div>
+                <div class="detail-row">
+                    <span>Status:</span>
+                    <span class="status">Processing</span>
+                </div>
+            </div>
+            
+            <p class="confirmation-message">
+                A confirmation email has been sent to your email address. 
+                Your order will be shipped within 3-5 business days.
+            </p>
+            
+            <div class="button-group">
+                <a href="products.html" class="btn btn-primary">Continue Shopping</a>
+                <a href="index.html" class="btn btn-secondary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <p>&copy; 2026 Fashion Store. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

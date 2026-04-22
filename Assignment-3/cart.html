@@ -1,271 +1,63 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-<title>Your Cart</title>
-
-<style>
-
-body{
-font-family:Arial;
-background:#f3f3f3;
-display:flex;
-justify-content:center;
-padding:30px;
-}
-
-.phone{
-width:350px;
-background:white;
-border-radius:10px;
-box-shadow:0 5px 20px rgba(0,0,0,0.2);
-overflow:hidden;
-}
-
-.header{
-padding:15px;
-border-bottom:1px solid #eee;
-font-weight:bold;
-}
-
-.items{
-padding:15px;
-}
-
-.item{
-display:flex;
-justify-content:space-between;
-margin-bottom:15px;
-}
-
-.qty button{
-background:#ff6a00;
-border:none;
-color:white;
-padding:4px 8px;
-border-radius:4px;
-cursor:pointer;
-}
-
-.bill{
-background:#fafafa;
-padding:15px;
-border-top:1px solid #eee;
-}
-
-.bill div{
-display:flex;
-justify-content:space-between;
-margin-bottom:8px;
-}
-
-.payment{
-padding:15px;
-}
-
-.confirm{
-background:#ff6a00;
-color:white;
-border:none;
-width:100%;
-padding:12px;
-font-size:16px;
-cursor:pointer;
-border-radius:5px;
-}
-
-.confirm:hover{
-background:#e65c00;
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Fashion Store</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="phone">
-
-<div class="header">
-🛒 Your Cart
-</div>
-
-<div class="items" id="cartItems">
-</div>
-
-<div class="bill">
-
-<div>
-<span>Items Total</span>
-<span id="itemsTotal">₹0</span>
-</div>
-
-<div>
-<span>Coupon Discount</span>
-<span style="color:red">- ₹25</span>
-</div>
-
-<div>
-<b>Grand Total</b>
-<b id="grandTotal">₹0</b>
-</div>
-
-</div>
-
-<div class="payment">
-
-<p><b>Select Payment Method</b></p>
-
-<label>
-<input type="radio" name="pay" value="paytm" onclick="showPaytm()"> Paytm
-</label>
-
-<br><br>
-
-<label>
-<input type="radio" name="pay" value="cod" checked onclick="hidePaytm()"> Cash on Delivery
-</label>
-
-<br><br>
-
-<div id="paytmBox" style="display:none; text-align:center;">
-
-<p>Scan QR to Pay</p>
-
-<img src="paytm.png" width="150">
-
-<p>Pay using Paytm App</p>
-
-</div>
-
-<br>
-
-<button class="confirm" onclick="confirmOrder()">
-Confirm Order
-</button>
-
-</div>
-
-</div>
-
-<script>
-
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-function loadCart(){
-
-let cartDiv = document.getElementById("cartItems");
-
-cartDiv.innerHTML="";
-
-let total=0;
-
-cart.forEach((item,index)=>{
-
-let itemTotal = item.price * item.qty;
-
-total += itemTotal;
-
-cartDiv.innerHTML += `
-
-<div class="item">
-
-<div>
-<b>${item.name}</b><br>
-₹${item.price}
-</div>
-
-<div class="qty">
-
-<button onclick="decrease(${index})">-</button>
-
-${item.qty}
-
-<button onclick="increase(${index})">+</button>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-document.getElementById("itemsTotal").innerText="₹"+total;
-
-let finalTotal = total - 25;
-
-if(finalTotal < 0) finalTotal = 0;
-
-document.getElementById("grandTotal").innerText="₹"+finalTotal;
-
-}
-
-function increase(i){
-
-cart[i].qty++;
-
-updateCart();
-
-}
-
-function decrease(i){
-
-if(cart[i].qty > 1){
-
-cart[i].qty--;
-
-}else{
-
-cart.splice(i,1);
-
-}
-
-updateCart();
-
-}
-
-function updateCart(){
-
-localStorage.setItem("cart",JSON.stringify(cart));
-
-loadCart();
-
-}
-
-function showPaytm(){
-
-document.getElementById("paytmBox").style.display="block";
-
-}
-
-function hidePaytm(){
-
-document.getElementById("paytmBox").style.display="none";
-
-}
-
-function confirmOrder(){
-
-let payment = document.querySelector('input[name="pay"]:checked').value;
-
-if(payment=="paytm"){
-
-alert("Redirecting to Paytm Payment...");
-
-}
-
-localStorage.removeItem("cart");
-
-window.location.href="order.html";
-
-}
-
-loadCart();
-
-</script>
-
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <h1 class="logo">Fashion Store</h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="cart.html" class="active cart-link">Cart</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- CART SECTION -->
+<section class="cart-section">
+    <div class="container">
+        <h1>Shopping Cart</h1>
+        
+        <div class="cart-container">
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be loaded here by JavaScript -->
+            </div>
+            
+            <div class="cart-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (10%):</span>
+                    <span id="tax">$0.00</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span id="total">$0.00</span>
+                </div>
+                <a href="checkout.html" class="btn btn-primary" id="checkoutBtn" style="width: 100%; text-align: center; display: block;">Proceed to Checkout</a>
+                <a href="products.html" class="btn btn-secondary" style="width: 100%; text-align: center; display: block;">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <p>&copy; 2026 Fashion Store. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
 </body>
-
 </html>

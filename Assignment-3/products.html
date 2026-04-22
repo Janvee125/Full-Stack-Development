@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Fashion Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <h1 class="logo">Fashion Store</h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html" class="active">Products</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="cart.html" class="cart-link">Cart</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- PRODUCTS SECTION -->
+<section class="products-section">
+    <div class="container">
+        <h1>Our Products</h1>
+        
+        <!-- FILTERS -->
+        <div class="filters">
+            <input type="text" id="searchBox" placeholder="Search products..." class="search-box">
+            <select id="categoryFilter" class="filter-select">
+                <option value="">All Categories</option>
+                <option value="mens">Men's</option>
+                <option value="womens">Women's</option>
+                <option value="kids">Kids</option>
+            </select>
+        </div>
+
+        <!-- PRODUCTS GRID -->
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be loaded here by JavaScript -->
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <p>&copy; 2026 Fashion Store. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
